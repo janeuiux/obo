@@ -1,0 +1,1112 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="color-scheme" content="light">
+<title>課後回饋 · INTO DESIGN 入心設計</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@300;400;700&family=Cormorant+Garamond:wght@400;600&display=swap" rel="stylesheet">
+<style>
+/* ── Token System from INTODESIGN25_視覺規範_v3.json ── */
+:root {
+  color-scheme: light;
+  --cream:    #fff5e8;
+  --cocoa:    #5C3D2E;
+  --tan:      #7a5c3e;
+  --tan-lo:   rgba(100,72,48,0.15);
+  --tan-line: rgba(100,72,48,0.35);
+  --cocoa-lo: rgba(92,61,46,0.06);
+  --cocoa-md: rgba(92,61,46,0.12);
+  --cocoa-hi: rgba(92,61,46,0.22);
+  --serif:    'Noto Serif TC', 'Source Han Serif TC', serif;
+  --en:       'Cormorant Garamond', Georgia, serif;
+  --radius:   4px;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html {
+  scroll-behavior: smooth;
+  background-color: #fff5e8;
+}
+
+body {
+  background-color: #fff5e8 !important;
+  color: var(--cocoa);
+  font-family: var(--serif);
+  font-weight: 300;
+  line-height: 1.5;
+  min-height: 100vh;
+  -webkit-text-size-adjust: 100%;
+}
+
+/* ── Page wrapper ── */
+.page {
+  max-width: 640px;
+  margin: 0 auto;
+  padding: 56px 32px 96px;
+}
+
+/* ── Masthead ── */
+.masthead {
+  margin-bottom: 56px;
+}
+.masthead-series {
+  font-family: var(--en);
+  font-weight: 600;
+  font-size: 13px;
+  letter-spacing: 0.18em;
+  color: var(--tan);
+  text-transform: uppercase;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.masthead-series::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--tan-line);
+}
+.masthead h1 {
+  font-family: var(--serif);
+  font-weight: 700;
+  font-size: clamp(28px, 6vw, 42px);
+  line-height: 1.25;
+  letter-spacing: 0.05em;
+  color: var(--cocoa);
+  margin-bottom: 16px;
+}
+.masthead-sub {
+  font-weight: 300;
+  font-size: 16px;
+  color: var(--tan);
+  line-height: 1.7;
+}
+
+/* ── Progress ── */
+.progress-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 40px;
+}
+.progress-track {
+  flex: 1;
+  height: 2px;
+  background: var(--tan-line);
+  border-radius: 99px;
+  overflow: hidden;
+}
+.progress-fill {
+  height: 100%;
+  background: var(--tan);
+  border-radius: 99px;
+  width: 0%;
+  transition: width 0.5s ease;
+}
+.progress-txt {
+  font-family: var(--en);
+  font-size: 13px;
+  color: var(--tan);
+  letter-spacing: 0.08em;
+  white-space: nowrap;
+}
+
+/* ── Section card ── */
+.card {
+  background: var(--cream);
+  border: 1px solid var(--tan-line);
+  border-radius: var(--radius);
+  padding: 36px 32px;
+  margin-bottom: 20px;
+  position: relative;
+  transition: border-color 0.25s;
+}
+.card:focus-within {
+  border-color: var(--tan);
+}
+/* Left accent bar on focus */
+.card::before {
+  content: '';
+  position: absolute;
+  left: 0; top: 20px; bottom: 20px;
+  width: 3px;
+  background: var(--tan);
+  border-radius: 0 2px 2px 0;
+  opacity: 0;
+  transition: opacity 0.25s;
+}
+.card:focus-within::before { opacity: 1; }
+
+.card-header {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  margin-bottom: 28px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--tan-line);
+}
+.card-num {
+  font-family: var(--en);
+  font-weight: 600;
+  font-size: 11px;
+  letter-spacing: 0.15em;
+  color: var(--tan);
+  text-transform: uppercase;
+}
+.card-title {
+  font-weight: 700;
+  font-size: 17px;
+  color: var(--cocoa);
+  letter-spacing: 0.02em;
+}
+
+/* ── Fields ── */
+.field { margin-bottom: 24px; }
+.field:last-child { margin-bottom: 0; }
+
+label.field-label {
+  display: block;
+  font-weight: 700;
+  font-size: 15px;
+  color: var(--cocoa);
+  margin-bottom: 8px;
+  cursor: default;
+}
+label.field-label .opt {
+  font-weight: 300;
+  font-size: 12px;
+  color: var(--tan);
+  margin-left: 6px;
+}
+.req { color: var(--tan); margin-left: 2px; }
+
+input[type="text"],
+input[type="email"],
+textarea,
+select {
+  width: 100%;
+  background: rgba(92,61,46,0.04);
+  border: none;
+  border-radius: 4px;
+  color: var(--cocoa);
+  font-family: var(--serif);
+  font-weight: 300;
+  font-size: 15px;
+  padding: 8px 2px 10px;
+  outline: none;
+  transition: border-color 0.2s;
+  -webkit-appearance: none;
+}
+input[type="text"]:focus,
+input[type="email"]:focus,
+textarea:focus,
+select:focus {
+  box-shadow: 0 0 0 2px var(--cocoa-md);
+  outline: none;
+}
+input::placeholder, textarea::placeholder { color: var(--tan); opacity: 0.7; }
+textarea { resize: vertical; min-height: 52px; line-height: 1.5; background: rgba(92,61,46,0.03); border-radius: 4px 4px 0 0; padding: 8px 10px; }
+
+select {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 256 256'%3E%3Cpath fill='%237a5c3e' d='m213.66 101.66-80 80a8 8 0 0 1-11.32 0l-80-80a8 8 0 0 1 11.32-11.32L128 164.69l74.34-74.35a8 8 0 0 1 11.32 11.32Z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 4px center;
+  padding-right: 28px;
+  cursor: pointer;
+}
+select option { background: var(--cream); color: var(--cocoa); }
+
+.two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+@media (max-width: 480px) { .two-col { grid-template-columns: 1fr; } }
+
+/* ── Date range picker ── */
+.date-range-wrap { margin-top: 2px; }
+.date-range-row {
+  display: flex;
+  align-items: flex-end;
+  gap: 12px;
+}
+.date-half {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+.date-half-lbl {
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  color: var(--tan);
+  font-family: var(--en);
+}
+.date-dash {
+  color: var(--tan);
+  font-size: 18px;
+  padding-bottom: 10px;
+  flex-shrink: 0;
+}
+input[type="date"] {
+  width: 100%;
+  background: transparent;
+  border: none;
+  border-radius: 4px;
+  color: var(--cocoa);
+  font-family: var(--serif);
+  font-weight: 300;
+  font-size: 14px;
+  padding: 6px 2px 8px;
+  outline: none;
+  cursor: pointer;
+  transition: border-color 0.2s;
+  -webkit-appearance: none;
+  appearance: none;
+}
+input[type="date"]:focus { box-shadow: 0 0 0 2px var(--cocoa-md); outline: none; }
+input[type="date"]::-webkit-calendar-picker-indicator {
+  opacity: 0.45;
+  cursor: pointer;
+  filter: sepia(1) saturate(3) hue-rotate(340deg) brightness(0.75);
+}
+
+
+/* ── Char counter ── */
+.field-foot {
+  text-align: right;
+  font-family: var(--en);
+  font-size: 11px;
+  color: var(--tan);
+  opacity: 0.8;
+  margin-top: 4px;
+}
+
+/* ── Emoji cards (overall feel) ── */
+.emoji-row {
+  display: flex;
+  gap: 6px;
+}
+.emoji-row input { display: none; }
+.emoji-row label {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  border: 1.5px solid var(--tan-line);
+  border-radius: 99px;
+  padding: 10px 8px;
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 300;
+  color: var(--tan);
+  flex: 1;
+  min-width: 0;
+  text-align: center;
+  transition: all 0.15s;
+  background: transparent;
+  margin: 0;
+}
+.emoji-row label .em { font-size: 22px; line-height: 1.1; margin-bottom: 2px; }
+.emoji-row label:hover {
+  border-color: var(--cocoa);
+  color: var(--cocoa);
+}
+.emoji-row input:checked + label {
+  border-color: var(--cocoa);
+  background: var(--cocoa);
+  color: var(--cream);
+  font-weight: 700;
+}
+
+/* ── Difficulty slider ── */
+.slider-block { padding: 4px 0; }
+input[type="range"] {
+  width: 100%;
+  -webkit-appearance: none;
+  appearance: none;
+  height: 2px;
+  background: var(--tan-line);
+  border-radius: 99px;
+  border: none;
+  padding: 0;
+  outline: none;
+  cursor: pointer;
+}
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 16px;
+  height: 16px;
+  background: var(--cocoa);
+  border-radius: 50%;
+  border: 3px solid var(--cream);
+  box-shadow: 0 0 0 1.5px var(--cocoa);
+  transition: box-shadow 0.15s;
+}
+input[type="range"]:focus::-webkit-slider-thumb {
+  box-shadow: 0 0 0 3px var(--tan-lo);
+}
+.slider-labels {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 10px;
+  font-size: 12px;
+  color: var(--tan);
+}
+.slider-val {
+  font-family: var(--en);
+  font-weight: 600;
+  font-size: 22px;
+  color: var(--cocoa);
+}
+
+/* ── Pill chips (multi-select / radio) ── */
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.chips input { display: none; }
+.chips label {
+  border: 1.5px solid var(--tan-line);
+  border-radius: 99px;
+  padding: 5px 16px;
+  font-size: 13px;
+  font-weight: 300;
+  color: var(--cocoa);
+  cursor: pointer;
+  margin: 0;
+  transition: all 0.15s;
+  background: transparent;
+  letter-spacing: 0.02em;
+}
+.chips label:hover { border-color: var(--cocoa); }
+.chips input:checked + label {
+  background: var(--cocoa);
+  border-color: var(--cocoa);
+  color: var(--cream);
+  font-weight: 700;
+}
+
+/* ── NPS ── */
+.nps-row {
+  display: grid;
+  grid-template-columns: repeat(11, 1fr);
+  gap: 4px;
+}
+.nps-row input { display: none; }
+.nps-row label {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 38px;
+  border: 1.5px solid var(--tan-line);
+  border-radius: 99px;
+  font-family: var(--en);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--tan);
+  cursor: pointer;
+  margin: 0;
+  transition: all 0.12s;
+  background: transparent;
+}
+.nps-row label:hover { border-color: var(--cocoa); color: var(--cocoa); }
+.nps-row input:checked + label {
+  background: var(--cocoa);
+  border-color: var(--cocoa);
+  color: var(--cream);
+}
+.nps-ends {
+  display: flex;
+  justify-content: space-between;
+  font-size: 11px;
+  color: var(--tan);
+  margin-top: 6px;
+}
+
+/* ── Quote block (used in section intros) ── */
+.section-note {
+  font-style: normal;
+  font-weight: 300;
+  font-size: 13px;
+  color: var(--tan);
+  border-left: 3px solid var(--tan);
+  padding-left: 14px;
+  margin-bottom: 24px;
+  line-height: 1.65;
+}
+
+/* ── Submit ── */
+.submit-area {
+  margin-top: 36px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+}
+.btn-submit {
+  background: var(--cocoa);
+  color: var(--cream);
+  border: none;
+  border-radius: 99px;
+  padding: 14px 48px;
+  font-family: var(--serif);
+  font-weight: 700;
+  font-size: 16px;
+  letter-spacing: 0.06em;
+  cursor: pointer;
+  transition: opacity 0.2s, transform 0.1s;
+}
+.btn-submit:hover { opacity: 0.85; }
+.btn-submit:active { transform: scale(0.98); }
+.submit-note {
+  font-size: 12px;
+  color: var(--tan);
+  text-align: center;
+  font-weight: 300;
+}
+
+/* ── Footer ── */
+.page-footer {
+  margin-top: 56px;
+  padding-top: 24px;
+  border-top: 1px solid var(--tan-line);
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  font-size: 13px;
+  color: var(--tan);
+  letter-spacing: 0.06em;
+}
+.footer-name { letter-spacing: 0.05em; }
+.footer-handle { letter-spacing: 0.1em; }
+
+/* ── Thank you ── */
+#thank-you {
+  display: none;
+  padding: 80px 20px;
+  text-align: center;
+  animation: fadeUp 0.5s ease;
+}
+.ty-headline {
+  font-family: var(--serif);
+  font-weight: 700;
+  font-size: 30px;
+  color: var(--cocoa);
+  margin-bottom: 16px;
+}
+.ty-quote {
+  font-weight: 300;
+  font-size: 16px;
+  color: var(--tan);
+  line-height: 1.8;
+  max-width: 380px;
+  margin: 0 auto 32px;
+  padding-left: 20px;
+  border-left: 3px solid var(--tan);
+  text-align: left;
+}
+.ty-meta {
+  font-family: var(--en);
+  font-size: 13px;
+  color: var(--tan);
+  letter-spacing: 0.1em;
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ── Info display card ── */
+.info-card {
+  background: var(--cream);
+  border-color: var(--tan-line);
+}
+
+
+.info-grid { display: flex; flex-direction: column; gap: 0; }
+.info-row {
+  display: flex;
+  align-items: baseline;
+  gap: 16px;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--tan-line);
+}
+.info-row:last-child { border-bottom: none; padding-bottom: 0; }
+.info-key {
+  font-family: var(--en);
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  color: var(--tan);
+  text-transform: uppercase;
+  min-width: 72px;
+  flex-shrink: 0;
+}
+.info-val {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--cocoa);
+  letter-spacing: 0.01em;
+}
+
+.slider-labels-5 {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  margin-top: 10px;
+  font-size: 12px;
+  color: var(--tan);
+  text-align: center;
+}
+.slider-labels-5 span:first-child { text-align: left; }
+.slider-labels-5 span:last-child { text-align: right; }
+.masthead-note {
+  font-weight: 300;
+  font-size: 14px;
+  color: var(--tan);
+  margin-top: 10px;
+  line-height: 1.7;
+  border-left: 3px solid var(--tan);
+  padding-left: 14px;
+}
+</style>
+</head>
+<body>
+
+<!-- ── 通關密語 ── -->
+<div id="gate" style="position:fixed;inset:0;z-index:9999;background:#fff5e8;display:flex;align-items:center;justify-content:center;font-family:'Noto Serif TC','Source Han Serif TC',serif;">
+  <div style="width:300px;text-align:center;">
+    <div style="font-size:11px;letter-spacing:0.18em;color:#7a5c3e;text-transform:uppercase;margin-bottom:24px;font-family:'Cormorant Garamond',Georgia,serif;">INTO DESIGN · 入心設計</div>
+    <h2 style="font-size:21px;font-weight:700;color:#5C3D2E;margin-bottom:36px;letter-spacing:0.04em;line-height:1.4;">請輸入通關密語</h2>
+    <div style="position:relative;width:100%;">
+      <input id="pw-input" type="password" style="width:100%;border:none;border-bottom:1.5px solid #7a5c3e;background:transparent;font-family:inherit;font-size:16px;color:#5C3D2E;padding:8px 36px 10px 2px;outline:none;letter-spacing:0.08em;text-align:center;" onkeydown="if(event.key==='Enter')checkPW()">
+      <button id="eye-btn" type="button" onclick="togglePW()" style="position:absolute;right:2px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;padding:4px;display:flex;align-items:center;">
+        <svg id="eye-open" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 256 256" fill="none">
+          <path d="M128 56C48 56 16 128 16 128s32 72 112 72 112-72 112-72S208 56 128 56z" stroke="#7a5c3e" stroke-width="14" stroke-linecap="round" stroke-linejoin="round"/>
+          <circle cx="128" cy="128" r="32" stroke="#7a5c3e" stroke-width="14"/>
+        </svg>
+        <svg id="eye-shut" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 256 256" fill="none" style="display:none;">
+          <path d="M128 56C48 56 16 128 16 128s32 72 112 72 112-72 112-72S208 56 128 56z" stroke="#7a5c3e" stroke-width="14" stroke-linecap="round" stroke-linejoin="round"/>
+          <circle cx="128" cy="128" r="32" stroke="#7a5c3e" stroke-width="14"/>
+          <line x1="48" y1="48" x2="208" y2="208" stroke="#7a5c3e" stroke-width="14" stroke-linecap="round"/>
+        </svg>
+      </button>
+    </div>
+    <div id="caps-warn" style="margin-top:10px;font-size:11px;color:#7a5c3e;letter-spacing:0.05em;text-align:center;opacity:0;transition:opacity 0.2s;">⇧ 大寫鎖定已開啟</div>
+    <div id="pw-err" style="height:18px;margin-top:6px;font-size:12px;color:#c0715a;opacity:0;transition:opacity 0.3s;"></div>
+    <button onclick="checkPW()" type="button" style="margin-top:20px;background:#5C3D2E;color:#fff5e8;border:none;border-radius:4px;padding:12px 40px;font-family:inherit;font-weight:700;font-size:15px;letter-spacing:0.06em;cursor:pointer;">進入</button>
+  </div>
+</div>
+
+<script>
+function togglePW() {
+  var inp = document.getElementById('pw-input');
+  var open = document.getElementById('eye-open');
+  var shut = document.getElementById('eye-shut');
+  if (inp.type === 'password') {
+    inp.type = 'text';
+    open.style.display = 'none';
+    shut.style.display = 'block';
+  } else {
+    inp.type = 'password';
+    open.style.display = 'block';
+    shut.style.display = 'none';
+  }
+}
+function checkPW() {
+  var val = document.getElementById('pw-input').value;
+  var err = document.getElementById('pw-err');
+  if (val === 'intodesign') {
+    document.getElementById('gate').style.display = 'none';
+    if (typeof updateDatePreview === 'function') updateDatePreview();
+    if (typeof updateTitle === 'function') updateTitle();
+  } else {
+    err.textContent = '密語不對，請再試一次';
+    err.style.opacity = '1';
+    document.getElementById('pw-input').value = '';
+    document.getElementById('pw-input').focus();
+    setTimeout(function(){ err.style.opacity = '0'; }, 2500);
+  }
+}
+window.addEventListener('DOMContentLoaded', function() {
+  var inp = document.getElementById('pw-input');
+  if (inp) inp.focus();
+  function checkCaps(e) {
+    var caps = document.getElementById('caps-warn');
+    if (caps) caps.style.opacity = e.getModifierState('CapsLock') ? '1' : '0';
+  }
+  if (inp) { inp.addEventListener('keyup', checkCaps); inp.addEventListener('keydown', checkCaps); }
+});
+</script>
+
+<div class="page">
+
+  <!-- Masthead -->
+  <div class="masthead">
+    <div class="masthead-series">INTO DESIGN · 入心設計</div>
+    <h1 id="main-title">恭喜 秀玲<br>完成平面設計 45 小時課程</h1>
+    <p class="masthead-sub">我想聽聽你的課後心得，你的回饋能幫助我下一堂課教得更好 :)</p>
+  </div>
+
+  <!-- Progress -->
+  <div class="progress-row">
+    <span class="progress-txt" id="prog-txt">1 / 6</span>
+    <div class="progress-track">
+      <div class="progress-fill" id="prog-fill" style="width:16.67%"></div>
+    </div>
+  </div>
+
+  <form id="form" novalidate>
+
+    <!-- ① 基本資訊（展示卡片） -->
+    <div class="card info-card">
+      <div class="card-header">
+        <span class="card-num">1</span>
+        <span class="card-title">基本資訊</span>
+      </div>
+      <input type="hidden" id="name" value="范秀玲">
+      <input type="hidden" id="date-start" value="2024-04-21">
+      <input type="hidden" id="date-end" value="2026-06-16" data-default="2026-06-16">
+      <input type="hidden" id="topic" value="OBO一對一平面設計45小時">
+      <div class="info-grid">
+        <div class="info-row">
+          <span class="info-key">學生姓名</span>
+          <span class="info-val" id="disp-name">范秀玲</span>
+        </div>
+        <div class="info-row">
+          <span class="info-key">上課日期</span>
+          <span class="info-val" id="disp-dates">2024/04/21 – 載入中</span>
+        </div>
+        <div class="info-row">
+          <span class="info-key">課程名稱</span>
+          <span class="info-val" id="disp-topic">OBO 一對一平面設計 45小時</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ② 整體感受 -->
+    <div class="card">
+      <div class="card-header">
+        <span class="card-num">2</span>
+        <span class="card-title">整體感受</span>
+      </div>
+
+      <div class="field">
+        <label class="field-label">這期課程整體感覺<span class="req">＊</span></label>
+        <div class="emoji-row">
+          <input type="radio" name="feel" id="f1" value="意猶未盡" checked>
+          <label for="f1"><span class="em">🔥</span>意猶未盡</label>
+          <input type="radio" name="feel" id="f2" value="學得很順">
+          <label for="f2"><span class="em">😄</span>學得很順</label>
+          <input type="radio" name="feel" id="f3" value="剛剛好">
+          <label for="f3"><span class="em">😊</span>剛剛好</label>
+          <input type="radio" name="feel" id="f4" value="有點吃力">
+          <label for="f4"><span class="em">😓</span>有點吃力</label>
+          <input type="radio" name="feel" id="f5" value="有點太難">
+          <label for="f5"><span class="em">😵</span>有點太難</label>
+        </div>
+      </div>
+
+      <div class="field">
+        <label class="field-label" for="diff">這期課程對你的難度<span class="req">＊</span></label>
+        <div class="slider-block">
+          <input type="range" id="diff" min="1" max="5" value="3" list="diff-marks">
+        <datalist id="diff-marks"><option value="1"></option><option value="2"></option><option value="3"></option><option value="4"></option><option value="5"></option></datalist>
+        </div>
+        <div class="slider-labels-5">
+          <span>很簡單</span>
+          <span></span>
+          <span>剛剛好</span>
+          <span></span>
+          <span>很困難</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ③ 學習收穫 -->
+    <div class="card">
+      <div class="card-header">
+        <span class="card-num">3</span>
+        <span class="card-title">學習收穫</span>
+      </div>
+
+
+      <div class="field">
+        <label class="field-label" for="aha">課程期間最讓你「突然懂了」的一刻是什麼？<span class="req">＊</span></label>
+        <textarea id="aha" placeholder="例：用電梯比喻圖層、串燒比喻對齊，很容易懂又好記" maxlength="300"></textarea>
+        <div class="field-foot"><span id="aha-n">0</span> / 300</div>
+      </div>
+
+      <div class="field">
+        <label class="field-label" for="teacher-best">老師對你最大的幫助是什麼？</label>
+        <textarea id="teacher-best" placeholder="例：讓我不怕犯錯、耐心解釋到我懂為止……" maxlength="300"></textarea>
+        <div class="field-foot"><span id="teacher-best-n">0</span> / 300</div>
+      </div>
+
+      <div class="field">
+        <label class="field-label" for="tool-note">整期課程中，哪個部分的教學對你印象最深刻？</label>
+        <textarea id="tool-note" placeholder="例：用電梯解釋圖層順序那段，或鋼筆工具的拆解方式……" maxlength="300"></textarea>
+        <div class="field-foot"><span id="tool-n">0</span> / 300</div>
+      </div>
+    </div>
+
+    <!-- ④ 遊戲化教學 -->
+    <div class="card">
+      <div class="card-header">
+        <span class="card-num">4</span>
+        <span class="card-title">遊戲化教學</span>
+      </div>
+
+
+      <div class="field">
+        <label class="field-label">遊戲化教學給你的感覺<span class="req">＊</span></label>
+        <div class="chips">
+          <input type="radio" name="tool" id="t1" value="很有趣、很投入" checked>
+          <label for="t1">很有趣、很投入</label>
+          <input type="radio" name="tool" id="t2" value="還不錯、有幫助">
+          <label for="t2">還不錯、有幫助</label>
+          <input type="radio" name="tool" id="t3" value="普通、習慣就好">
+          <label for="t3">普通、習慣就好</label>
+          <input type="radio" name="tool" id="t4" value="不太懂">
+          <label for="t4">不太懂</label>
+        </div>
+      </div>
+
+      <div class="field">
+        <label class="field-label">對整體課程學習的幫助程度<span class="req">＊</span></label>
+        <div class="chips">
+          <input type="radio" name="game-help" id="gh1" value="幫助很大" checked>
+          <label for="gh1">幫助很大</label>
+          <input type="radio" name="game-help" id="gh2" value="有一定幫助">
+          <label for="gh2">有一定幫助</label>
+          <input type="radio" name="game-help" id="gh2b" value="有點幫助">
+          <label for="gh2b">有點幫助</label>
+          <input type="radio" name="game-help" id="gh3" value="幫助不多">
+          <label for="gh3">幫助不多</label>
+          <input type="radio" name="game-help" id="gh4" value="不確定">
+          <label for="gh4">不確定</label>
+        </div>
+      </div>
+
+      <div class="field">
+        <label class="field-label">遇到操作困難時，老師的協助方式對你有幫助嗎？<span class="req">＊</span></label>
+        <div class="chips">
+          <input type="checkbox" name="teacher-help" id="th1" value="適時鼓勵，讓我願意繼續嘗試">
+          <label for="th1">適時鼓勵，讓我願意繼續嘗試</label>
+          <input type="checkbox" name="teacher-help" id="th2" value="及時發現我卡住的地方">
+          <label for="th2">及時發現我卡住的地方</label>
+          <input type="checkbox" name="teacher-help" id="th3" value="不只講操作，也解釋背後原因">
+          <label for="th3">不只講操作，也解釋背後原因</label>
+          <input type="checkbox" name="teacher-help" id="th4" value="針對我的困難加強練習">
+          <label for="th4">針對我的困難加強練習</label>
+          <input type="checkbox" name="teacher-help" id="th5" value="協助還不夠充分">
+          <label for="th5">協助還不夠充分</label>
+          <input type="checkbox" name="teacher-help" id="th6" value="老師沒辦法解決我的問題">
+          <label for="th6">老師沒辦法解決我的問題</label>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ⑤ 課程方向 -->
+    <div class="card">
+      <div class="card-header">
+        <span class="card-num">5</span>
+        <span class="card-title">接下來想學什麼</span>
+      </div>
+
+      <div class="field">
+        <label class="field-label" for="pace">對上課節奏或教法，有什麼希望調整的？<span class="req">＊</span></label>
+        <textarea id="pace" placeholder="如果覺得滿意，可以填寫「無」" maxlength="400"></textarea>
+        <div class="field-foot"><span id="pace-n">0</span> / 400</div>
+      </div>
+
+      <div class="field">
+        <label class="field-label">你最有興趣繼續探索的方向</label>
+        <div class="chips">
+          <input type="checkbox" name="next" id="n1" value="色彩理論與配色">
+          <label for="n1">色彩理論與配色</label>
+          <input type="checkbox" name="next" id="n2" value="字體排版">
+          <label for="n2">字體排版</label>
+          <input type="checkbox" name="next" id="n3" value="Logo 設計">
+          <label for="n3">Logo 設計</label>
+          <input type="checkbox" name="next" id="n4" value="海報版面">
+          <label for="n4">海報版面</label>
+          <input type="checkbox" name="next" id="n5" value="品牌識別設計">
+          <label for="n5">品牌識別設計</label>
+          <input type="checkbox" name="next" id="n6" value="影像精修">
+          <label for="n6">影像精修</label>
+          <input type="checkbox" name="next" id="n7" value="提案策略">
+          <label for="n7">提案策略</label>
+          <input type="checkbox" name="next" id="n8" value="簡報綜合技能">
+          <label for="n8">簡報綜合技能</label>
+          <input type="checkbox" name="next" id="n9" value="主題課程">
+          <label for="n9">主題課程</label>
+          <input type="checkbox" name="next" id="n10" value="個人品牌">
+          <label for="n10">個人品牌</label>
+          <input type="checkbox" name="next" id="n11" value="進階技巧">
+          <label for="n11">進階技巧</label>
+          <input type="checkbox" name="next" id="n12" value="製作作品集">
+          <label for="n12">製作作品集</label>
+          <input type="checkbox" name="next" id="n13" value="建立個人風格">
+          <label for="n13">建立個人風格</label>
+          <input type="checkbox" name="next" id="n14" value="結合AI應用">
+          <label for="n14">結合 AI 應用</label>
+        </div>
+      </div>
+
+      <div class="field">
+        <label class="field-label" for="wish">許願未來課程</label>
+        <textarea id="wish" placeholder="例：希望有一堂專門做作品集的課、或出一個完整海報的挑戰……" maxlength="300"></textarea>
+        <div class="field-foot"><span id="wish-n">0</span> / 300</div>
+      </div>
+
+    </div>
+
+    <!-- ⑥ 推薦意願 + 自由留言 -->
+    <div class="card">
+      <div class="card-header">
+        <span class="card-num">6</span>
+        <span class="card-title">給老師的話</span>
+      </div>
+
+      <div class="field">
+        <label class="field-label" for="nps-slider">朋友想學設計，你會推薦他嗎？<span class="req">＊</span></label>
+        <div class="slider-block" style="margin-top:8px;">
+          <input type="range" id="nps-slider" name="nps" min="1" max="5" value="5" list="nps-marks" style="transform:scaleX(-1);">
+          <datalist id="nps-marks">
+            <option value="1"></option><option value="2"></option><option value="3"></option>
+            <option value="4"></option><option value="5"></option>
+          </datalist>
+        </div>
+        <div class="slider-labels-5" style="margin-top:10px;">
+          <span>一定推薦</span>
+          <span></span>
+          <span></span>
+          <span></span>
+          <span>不會推薦</span>
+        </div>
+
+      </div>
+
+      <div class="field">
+        <label class="field-label" for="free">有沒有什麼想對老師說的話？</label>
+        <textarea id="free" placeholder="任何感想都歡迎……" maxlength="500"></textarea>
+        <div class="field-foot"><span id="free-n">0</span> / 500</div>
+      </div>
+    </div>
+
+    <!-- Submit -->
+    <div class="submit-area">
+      <button type="submit" class="btn-submit">送出回饋</button>
+      <p class="submit-note">你的回饋只有老師看得到。謝謝你願意花時間寫。</p>
+    </div>
+
+  </form>
+
+  <!-- Thank you screen -->
+  <div id="thank-you">
+    <p class="ty-quote">
+      每一個回答，都是下一堂課的設計材料。<br>
+      謝謝你讓這門課有機會變得更好。
+    </p>
+    <p class="ty-headline">收到了。</p>
+    <p class="ty-meta">INTO DESIGN 入心設計 &nbsp;·&nbsp; @INTODESIGN25</p>
+  </div>
+
+  <!-- Footer -->
+  <div class="page-footer">
+    <span class="footer-name">Wen Jane · 2026</span>
+    <span class="footer-handle">@INTODESIGN25</span>
+  </div>
+
+</div><!-- .page -->
+
+<script>
+// ── URL 參數預填（方案 A）──
+// 網址格式：index.html?name=范秀玲&start=2024-04-21&end=2026-06-16&topic=OBO一對一平面設計45小時
+(function() {
+  const p = new URLSearchParams(window.location.search);
+  if (p.get('name')) {
+    const el = document.getElementById('name');
+    if (el) el.value = p.get('name');
+    const d = document.getElementById('disp-name');
+    if (d) d.textContent = p.get('name');
+    updateTitle();
+  }
+  if (p.get('start')) {
+    const el = document.getElementById('date-start');
+    if (el) el.value = p.get('start');
+  }
+  if (p.get('end')) {
+    const el = document.getElementById('date-end');
+    if (el) el.value = p.get('end');
+  }
+  if (p.get('topic')) {
+    const hidden = document.getElementById('topic');
+    if (hidden) hidden.value = p.get('topic');
+    const dt = document.getElementById('disp-topic');
+    if (dt) dt.textContent = p.get('topic');
+    updateTitle();
+  }
+
+function getShortName(full) {
+  if (!full) return '同學';
+  // Use last 2 chars; if single char, keep it
+  return full.length >= 2 ? full.slice(-2) : full;
+}
+function updateTitle() {
+  const full  = document.getElementById('name')?.value || '';
+  const short = getShortName(full);
+  const topic = document.getElementById('topic')?.value || '';
+  const el = document.getElementById('main-title');
+  if (el) el.innerHTML = '恭喜 ' + short + '<br>完成' + topic.replace('OBO一對一','') + '課程';
+}
+  updateTitle();
+})();
+
+// ── Date range preview ──
+const dsEl = document.getElementById('date-start');
+const deEl = document.getElementById('date-end');
+if (!deEl.value) deEl.value = '2026-06-16';
+const dpEl = document.getElementById('date-preview');
+
+function fmtDate(val) {
+  if (!val) return '';
+  const [y, m, d] = val.split('-');
+  return y + '/' + m + '/' + d;
+}
+function updateDatePreview() {
+  const s = document.getElementById('date-start').value;
+  const e = document.getElementById('date-end').value;
+  const dd = document.getElementById('disp-dates');
+  if (s && e) {
+    const txt = fmtDate(s) + ' – ' + fmtDate(e);
+    if(dpEl) { dpEl.textContent = txt; dpEl.classList.add('filled'); }
+    if(dd) dd.textContent = txt;
+  } else if (s) {
+    if(dpEl) { dpEl.textContent = fmtDate(s) + ' – 未設定'; dpEl.classList.remove('filled'); }
+    if(dd) dd.textContent = fmtDate(s) + ' – 未設定';
+  }
+}
+dsEl.addEventListener('change', updateDatePreview);
+deEl.addEventListener('change', updateDatePreview);
+
+// Default dates
+const todayStr = new Date().toISOString().slice(0,10);
+if (!dsEl.value) dsEl.value = '2024-04-21';
+if (!deEl.value) deEl.value = document.getElementById('date-end').dataset.default || '2026-06-16';
+updateDatePreview();
+
+// ── Slider ──
+const diffSlider = document.getElementById('diff');
+const diffVal    = document.getElementById('diff-val');
+// Slider 1-5, center=3 aligns with 剛剛好 label
+
+
+
+// ── Char counters ──
+[['aha','aha-n'],['gap','gap-n'],['teacher-best','teacher-best-n'],['tool-note','tool-n'],['pace','pace-n'],['free','free-n']].forEach(([id, cnt]) => {
+  const ta = document.getElementById(id);
+  const el = document.getElementById(cnt);
+  if (ta && el) ta.addEventListener('input', () => el.textContent = ta.value.length);
+});
+
+// ── Progress (6 sections) ──
+// Track which sections user has actually interacted with
+var touchedSections = { feel: false, aha: false, game: false, next: false, nps: false };
+
+function calcProgress() {
+  let done = 1; // section 1 always complete
+  if (touchedSections.feel) done++;
+  if (touchedSections.aha) done++;
+  if (touchedSections.game) done++;
+  if (touchedSections.next) done++;
+  if (touchedSections.nps) done++;
+  document.getElementById('prog-fill').style.width = (done / 6 * 100) + '%';
+  document.getElementById('prog-txt').textContent  = done + ' / 6';
+}
+
+document.querySelectorAll('input[name="feel"]').forEach(function(el) {
+  el.addEventListener('change', function() { touchedSections.feel = true; calcProgress(); });
+});
+document.getElementById('diff').addEventListener('input', function() {
+  touchedSections.feel = true; calcProgress();
+});
+document.getElementById('aha').addEventListener('input', function() {
+  if (this.value.trim()) { touchedSections.aha = true; calcProgress(); }
+});
+document.querySelectorAll('input[name="tool"], input[name="game-help"]').forEach(function(el) {
+  el.addEventListener('change', function() { touchedSections.game = true; calcProgress(); });
+});
+document.querySelectorAll('input[name="next"]').forEach(function(el) {
+  el.addEventListener('change', function() { touchedSections.next = true; calcProgress(); });
+});
+document.getElementById('pace').addEventListener('input', function() {
+  if (this.value.trim()) { touchedSections.next = true; calcProgress(); }
+});
+// pace is required — also validate
+
+document.getElementById('nps-slider').addEventListener('input', function() {
+  touchedSections.nps = true; calcProgress();
+});
+
+// ── Google Sheets 串接網址（部署後貼在這裡）──
+// 步驟：Google 試算表 → 擴充功能 → Apps Script → 貼上下方 GAS 程式碼 → 部署為網路應用程式 → 複製網址
+const SHEET_URL = 'https://script.google.com/macros/s/AKfycbyE-PBs9OKPWSe2ohYSnDNo-ScTVcmhK03RZwxV2ym0Yun6Zld2SC5zJ-NHQW0fq0WJGw/exec';
+
+// ── Submit ──
+document.getElementById('form').addEventListener('submit', async e => {
+  e.preventDefault();
+  const req = {
+    name:     document.getElementById('name').value.trim(),
+    dateStart: document.getElementById('date-start').value,
+    dateEnd:   document.getElementById('date-end').value,
+    topic:    document.getElementById('topic').value,
+    feel:     document.querySelector('input[name="feel"]:checked')?.value,
+    aha:      document.getElementById('aha').value.trim(),
+    gap:      document.getElementById('gap').value.trim(),
+    tool:     document.querySelector('input[name="tool"]:checked')?.value,
+    gameHelp: document.querySelector('input[name="game-help"]:checked')?.value,
+    nps:      document.querySelector('input[name="nps"]:checked')?.value,
+  };
+  const missing = Object.entries(req).filter(([,v]) => !v).map(([k]) => k);
+  if (missing.length) {
+    alert('請確認有 ＊ 的欄位都已填寫。');
+    return;
+  }
+  const full = {
+    ...req,
+    difficulty:  document.getElementById('diff').value,
+    teacherHelp: [...document.querySelectorAll('input[name="teacher-help"]:checked')].map(i => i.value).join('、'),
+    toolNote:    document.getElementById('tool-note').value,
+    nextTopics:  [...document.querySelectorAll('input[name="next"]:checked')].map(i => i.value).join('、'),
+    pace:        document.getElementById('pace').value,
+    freeNote:    document.getElementById('free').value,
+    submittedAt: new Date().toLocaleString('zh-TW', {timeZone:'Asia/Taipei'})
+  };
+
+  // 顯示感謝畫面（先讓學生看到，資料在背景送出）
+  document.getElementById('form').style.display = 'none';
+  document.getElementById('thank-you').style.display = 'block';
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+
+  // 送資料到 Google Sheets（若尚未設定 SHEET_URL 則略過）
+  if (SHEET_URL !== 'YOUR_APPS_SCRIPT_URL_HERE') {
+    try {
+      await fetch(SHEET_URL, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(full)
+      });
+    } catch(err) {
+      console.warn('試算表送出失敗', err);
+    }
+  }
+  console.log('[INTO DESIGN 回饋]', full);
+});
+</script>
+</body>
+</html>
