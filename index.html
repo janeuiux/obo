@@ -150,11 +150,10 @@ body {
 }
 .card-num {
   font-family: var(--en);
-  font-weight: 600;
-  font-size: 11px;
-  letter-spacing: 0.15em;
+  font-weight: 700;
+  font-size: 18px;
+  letter-spacing: 0.06em;
   color: var(--tan);
-  text-transform: uppercase;
 }
 .card-title {
   font-weight: 700;
@@ -676,7 +675,7 @@ window.addEventListener('DOMContentLoaded', function() {
         </div>
         <div class="info-row">
           <span class="info-key">上課日期</span>
-          <span class="info-val" id="disp-dates">2024/04/21 – 載入中</span>
+          <span class="info-val" id="disp-dates">2024/04/21 – 2026/06/16</span>
         </div>
         <div class="info-row">
           <span class="info-key">課程名稱</span>
@@ -790,7 +789,7 @@ window.addEventListener('DOMContentLoaded', function() {
       </div>
 
       <div class="field">
-        <label class="field-label">遇到操作困難時，老師的協助方式對你有幫助嗎？<span class="req">＊</span></label>
+        <label class="field-label">遇到操作困難時，老師的協助方式對你有哪些幫助？<span class="req">＊</span></label>
         <div class="chips">
           <input type="checkbox" name="teacher-help" id="th1" value="適時鼓勵，讓我願意繼續嘗試">
           <label for="th1">適時鼓勵，讓我願意繼續嘗試</label>
@@ -924,82 +923,79 @@ window.addEventListener('DOMContentLoaded', function() {
 </div><!-- .page -->
 
 <script>
-// ── URL 參數預填（方案 A）──
-// 網址格式：index.html?name=范秀玲&start=2024-04-21&end=2026-06-16&topic=OBO一對一平面設計45小時
-(function() {
-  const p = new URLSearchParams(window.location.search);
-  if (p.get('name')) {
-    const el = document.getElementById('name');
-    if (el) el.value = p.get('name');
-    const d = document.getElementById('disp-name');
-    if (d) d.textContent = p.get('name');
-    updateTitle();
-  }
-  if (p.get('start')) {
-    const el = document.getElementById('date-start');
-    if (el) el.value = p.get('start');
-  }
-  if (p.get('end')) {
-    const el = document.getElementById('date-end');
-    if (el) el.value = p.get('end');
-  }
-  if (p.get('topic')) {
-    const hidden = document.getElementById('topic');
-    if (hidden) hidden.value = p.get('topic');
-    const dt = document.getElementById('disp-topic');
-    if (dt) dt.textContent = p.get('topic');
-    updateTitle();
-  }
-
+// ── 所有函數先定義 ──
 function getShortName(full) {
   if (!full) return '同學';
-  // Use last 2 chars; if single char, keep it
   return full.length >= 2 ? full.slice(-2) : full;
 }
 function updateTitle() {
-  const full  = document.getElementById('name')?.value || '';
-  const short = getShortName(full);
-  const topic = document.getElementById('topic')?.value || '';
-  const el = document.getElementById('main-title');
+  var full  = document.getElementById('name') ? document.getElementById('name').value : '';
+  var short = getShortName(full);
+  var topic = document.getElementById('topic') ? document.getElementById('topic').value : '';
+  var el = document.getElementById('main-title');
   if (el) el.innerHTML = '恭喜 ' + short + '<br>完成' + topic.replace('OBO一對一','') + '課程';
 }
-  updateTitle();
-})();
 
-// ── Date range preview ──
-const dsEl = document.getElementById('date-start');
-const deEl = document.getElementById('date-end');
-if (!deEl.value) deEl.value = '2026-06-16';
-const dpEl = document.getElementById('date-preview');
+var dsEl = document.getElementById('date-start');
+var deEl = document.getElementById('date-end');
+var dpEl = document.getElementById('date-preview');
 
 function fmtDate(val) {
   if (!val) return '';
-  const [y, m, d] = val.split('-');
-  return y + '/' + m + '/' + d;
+  var parts = val.split('-');
+  return parts[0] + '/' + parts[1] + '/' + parts[2];
 }
 function updateDatePreview() {
-  const s = document.getElementById('date-start').value;
-  const e = document.getElementById('date-end').value;
-  const dd = document.getElementById('disp-dates');
+  var dsElFresh = document.getElementById('date-start');
+  var deElFresh = document.getElementById('date-end');
+  // 若 value 為空，嘗試讀取 data-default
+  var s = (dsElFresh && dsElFresh.value) ? dsElFresh.value : (dsElFresh && dsElFresh.dataset.default) || '';
+  var e = (deElFresh && deElFresh.value) ? deElFresh.value : (deElFresh && deElFresh.dataset.default) || '';
+  var dd = document.getElementById('disp-dates');
   if (s && e) {
-    const txt = fmtDate(s) + ' – ' + fmtDate(e);
-    if(dpEl) { dpEl.textContent = txt; dpEl.classList.add('filled'); }
-    if(dd) dd.textContent = txt;
+    var txt = fmtDate(s) + ' – ' + fmtDate(e);
+    if (dpEl) dpEl.textContent = txt;
+    if (dd) dd.textContent = txt;
   } else if (s) {
-    if(dpEl) { dpEl.textContent = fmtDate(s) + ' – 未設定'; dpEl.classList.remove('filled'); }
-    if(dd) dd.textContent = fmtDate(s) + ' – 未設定';
+    var txt2 = fmtDate(s) + ' – 未設定';
+    if (dpEl) dpEl.textContent = txt2;
+    if (dd) dd.textContent = txt2;
   }
 }
 dsEl.addEventListener('change', updateDatePreview);
 deEl.addEventListener('change', updateDatePreview);
 
-// Default dates
-const todayStr = new Date().toISOString().slice(0,10);
-if (!dsEl.value) dsEl.value = '2024-04-21';
-if (!deEl.value) deEl.value = document.getElementById('date-end').dataset.default || '2026-06-16';
-updateDatePreview();
+// ── 讀取 URL 參數並初始化 ──
+(function() {
+  var p = new URLSearchParams(window.location.search);
+  if (p.get('name')) {
+    var nameEl = document.getElementById('name');
+    if (nameEl) nameEl.value = p.get('name');
+    var dispName = document.getElementById('disp-name');
+    if (dispName) dispName.textContent = p.get('name');
+  }
+  if (p.get('start')) {
+    dsEl.value = p.get('start');
+  }
+  if (p.get('end')) {
+    deEl.value = p.get('end');
+  }
+  if (p.get('topic')) {
+    var topicEl = document.getElementById('topic');
+    if (topicEl) topicEl.value = p.get('topic');
+    var dispTopic = document.getElementById('disp-topic');
+    if (dispTopic) dispTopic.textContent = p.get('topic');
+  }
+  // 初始化顯示
+  updateTitle();
+  updateDatePreview();
+})();
 
-// ── Slider ──
+// ── 確保日期在任何情況下都正確顯示 ──
+document.addEventListener('DOMContentLoaded', function() {
+  updateDatePreview();
+  updateTitle();
+});
 const diffSlider = document.getElementById('diff');
 const diffVal    = document.getElementById('diff-val');
 // Slider 1-5, center=3 aligns with 剛剛好 label
@@ -1092,18 +1088,39 @@ document.getElementById('form').addEventListener('submit', function(e) {
     freeNote:    document.getElementById('free').value
   };
 
-  // Show thank you immediately
+  // Build a hidden form and submit via hidden iframe (no CORS, no redirect)
+  var iframe = document.getElementById('submit-iframe');
+  if (!iframe) {
+    iframe = document.createElement('iframe');
+    iframe.id = 'submit-iframe';
+    iframe.name = 'submit-iframe';
+    iframe.style.display = 'none';
+    document.body.appendChild(iframe);
+  }
+
+  var hiddenForm = document.createElement('form');
+  hiddenForm.method = 'POST';
+  hiddenForm.action = SHEET_URL;
+  hiddenForm.target = 'submit-iframe';
+  hiddenForm.style.display = 'none';
+
+  Object.keys(data).forEach(function(k) {
+    var input = document.createElement('input');
+    input.type = 'hidden';
+    input.name = k;
+    input.value = data[k];
+    hiddenForm.appendChild(input);
+  });
+
+  document.body.appendChild(hiddenForm);
+  hiddenForm.submit();
+  document.body.removeChild(hiddenForm);
+
+  // Show thank you screen
   document.getElementById('form').style.display = 'none';
   var ty = document.getElementById('thank-you');
   ty.style.display = 'block';
   window.scrollTo({ top: 0, behavior: 'smooth' });
-
-  // Send via hidden image trick (GET request, no CORS issue)
-  var params = Object.keys(data).map(function(k) {
-    return encodeURIComponent(k) + '=' + encodeURIComponent(data[k]);
-  }).join('&');
-  var img = new Image();
-  img.src = SHEET_URL + '?' + params;
 };
 </script>
 </body>
