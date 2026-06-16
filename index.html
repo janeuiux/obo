@@ -1057,56 +1057,54 @@ document.getElementById('nps-slider').addEventListener('input', function() {
 const SHEET_URL = 'https://script.google.com/macros/s/AKfycbyE-PBs9OKPWSe2ohYSnDNo-ScTVcmhK03RZwxV2ym0Yun6Zld2SC5zJ-NHQW0fq0WJGw/exec';
 
 // ── Submit ──
-document.getElementById('form').addEventListener('submit', async e => {
+document.getElementById('form').addEventListener('submit', function(e) {
   e.preventDefault();
-  const req = {
-    name:     document.getElementById('name').value.trim(),
-    dateStart: document.getElementById('date-start').value,
-    dateEnd:   document.getElementById('date-end').value,
-    topic:    document.getElementById('topic').value,
-    feel:     document.querySelector('input[name="feel"]:checked')?.value,
-    aha:      document.getElementById('aha').value.trim(),
-    gap:      document.getElementById('gap').value.trim(),
-    tool:     document.querySelector('input[name="tool"]:checked')?.value,
-    gameHelp: document.querySelector('input[name="game-help"]:checked')?.value,
-    nps:      document.querySelector('input[name="nps"]:checked')?.value,
-  };
-  const missing = Object.entries(req).filter(([,v]) => !v).map(([k]) => k);
-  if (missing.length) {
+
+  // Collect data
+  var feel  = document.querySelector('input[name="feel"]:checked');
+  var aha   = document.getElementById('aha').value.trim();
+  var tool  = document.querySelector('input[name="tool"]:checked');
+  var gh    = document.querySelector('input[name="game-help"]:checked');
+  var pace  = document.getElementById('pace').value.trim();
+
+  if (!feel || !aha || !tool || !gh || !pace) {
     alert('請確認有 ＊ 的欄位都已填寫。');
     return;
   }
-  const full = {
-    ...req,
+
+  var data = {
+    at:          new Date().toLocaleString('zh-TW', {timeZone:'Asia/Taipei'}),
+    name:        document.getElementById('name').value,
+    dateStart:   document.getElementById('date-start').value,
+    dateEnd:     document.getElementById('date-end').value,
+    topic:       document.getElementById('topic').value,
+    feel:        feel.value,
     difficulty:  document.getElementById('diff').value,
-    teacherHelp: [...document.querySelectorAll('input[name="teacher-help"]:checked')].map(i => i.value).join('、'),
+    aha:         aha,
+    tool:        tool.value,
+    gameHelp:    gh.value,
+    teacherHelp: Array.from(document.querySelectorAll('input[name="teacher-help"]:checked')).map(function(i){return i.value;}).join('、'),
     toolNote:    document.getElementById('tool-note').value,
-    nextTopics:  [...document.querySelectorAll('input[name="next"]:checked')].map(i => i.value).join('、'),
-    pace:        document.getElementById('pace').value,
-    freeNote:    document.getElementById('free').value,
-    submittedAt: new Date().toLocaleString('zh-TW', {timeZone:'Asia/Taipei'})
+    pace:        pace,
+    nextTopics:  Array.from(document.querySelectorAll('input[name="next"]:checked')).map(function(i){return i.value;}).join('、'),
+    wish:        document.getElementById('wish').value,
+    nps:         document.getElementById('nps-slider').value,
+    freeNote:    document.getElementById('free').value
   };
 
-  // 顯示感謝畫面（先讓學生看到，資料在背景送出）
+  // Show thank you immediately
   document.getElementById('form').style.display = 'none';
-  document.getElementById('thank-you').style.display = 'block';
+  var ty = document.getElementById('thank-you');
+  ty.style.display = 'block';
   window.scrollTo({ top: 0, behavior: 'smooth' });
 
-  // 送資料到 Google Sheets（若尚未設定 SHEET_URL 則略過）
-  if (SHEET_URL !== 'YOUR_APPS_SCRIPT_URL_HERE') {
-    try {
-      await fetch(SHEET_URL, {
-        method: 'POST',
-        mode: 'no-cors',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(full)
-      });
-    } catch(err) {
-      console.warn('試算表送出失敗', err);
-    }
-  }
-  console.log('[INTO DESIGN 回饋]', full);
-});
+  // Send via hidden image trick (GET request, no CORS issue)
+  var params = Object.keys(data).map(function(k) {
+    return encodeURIComponent(k) + '=' + encodeURIComponent(data[k]);
+  }).join('&');
+  var img = new Image();
+  img.src = SHEET_URL + '?' + params;
+};
 </script>
 </body>
 </html>
