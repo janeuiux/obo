@@ -644,7 +644,7 @@ input[type="range"]:focus::-webkit-slider-thumb {
     <div style="font-size:11px;letter-spacing:0.18em;color:#7a5c3e;text-transform:uppercase;margin-bottom:24px;font-family:'Cormorant Garamond',Georgia,serif;">INTO DESIGN · 入心設計</div>
     <h2 style="font-size:21px;font-weight:700;color:#5C3D2E;margin-bottom:36px;letter-spacing:0.04em;line-height:1.4;">請輸入通關密語</h2>
     <div style="position:relative;width:100%;">
-      <input id="pw-input" type="password" style="width:100%;border:1.5px solid #7a5c3e;border-radius:4px;background:transparent;font-family:inherit;font-size:16px;color:#5C3D2E;padding:10px 36px 10px 12px;outline:none;letter-spacing:0.08em;text-align:center;" onkeydown="if(event.key==='Enter')checkPW()">
+      <input id="pw-input" type="password" autocomplete="off" name="obo-gate" style="width:100%;border:1.5px solid #7a5c3e;border-radius:4px;background:transparent;font-family:inherit;font-size:16px;color:#5C3D2E;padding:10px 36px 10px 12px;outline:none;letter-spacing:0.08em;text-align:center;" onkeydown="if(event.key==='Enter')checkPW()">
       <button id="eye-btn" type="button" onclick="togglePW()" style="position:absolute;right:8px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;padding:4px;display:flex;align-items:center;">
         <svg id="eye-open" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 256 256" fill="none">
           <path d="M128 56C48 56 16 128 16 128s32 72 112 72 112-72 112-72S208 56 128 56z" stroke="#7a5c3e" stroke-width="14" stroke-linecap="round" stroke-linejoin="round"/>
@@ -683,6 +683,9 @@ function checkPW() {
   var err = document.getElementById('pw-err');
   if (val === 'intodesign') {
     document.getElementById('gate').style.display = 'none';
+    // 清空並移除密碼欄，避免瀏覽器在送出跳轉時跳出「儲存密碼」
+    var pw = document.getElementById('pw-input');
+    if (pw) { pw.value = ''; pw.remove(); }
     if (typeof updateDatePreview === 'function') updateDatePreview();
     if (typeof updateTitle === 'function') updateTitle();
   } else {
