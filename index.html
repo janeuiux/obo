@@ -180,7 +180,7 @@ label.field-label .opt {
   color: var(--tan);
   margin-left: 6px;
 }
-.req { color: var(--tan); margin-left: 2px; }
+.req { color: #b94a38; margin-left: 2px; }
 
 input[type="text"],
 input[type="email"],
@@ -444,6 +444,13 @@ input[type="range"]:focus::-webkit-slider-thumb {
   align-items: center;
   gap: 14px;
 }
+.btn-submit.clicked {
+  background: #3a2018 !important;
+  transform: scale(0.97);
+  opacity: 0.9;
+  cursor: default;
+}
+.btn-submit:disabled { cursor: default; }
 .btn-submit {
   background: var(--cocoa);
   color: var(--cream);
@@ -569,6 +576,64 @@ input[type="range"]:focus::-webkit-slider-thumb {
   border-left: 3px solid var(--tan);
   padding-left: 14px;
 }
+
+/* ── Validation toast ── */
+#toast-wrap {
+  position: fixed;
+  bottom: 32px; left: 0; right: 0;
+  z-index: 99999;
+  display: flex;
+  justify-content: center;
+  pointer-events: none;
+}
+#toast {
+  background: var(--cocoa);
+  color: var(--cream);
+  font-family: var(--serif);
+  font-size: 14px;
+  font-weight: 300;
+  line-height: 1.6;
+  letter-spacing: 0.02em;
+  padding: 14px 22px;
+  border-radius: var(--radius);
+  max-width: 360px;
+  width: calc(100% - 40px);
+  box-shadow: 0 4px 20px rgba(92,61,46,0.22);
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity 0.25s ease, transform 0.25s ease;
+  pointer-events: auto;
+}
+#toast.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+#toast .toast-title {
+  font-weight: 700;
+  font-size: 15px;
+  margin-bottom: 6px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+#toast .toast-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+#toast .toast-list li::before {
+  content: '· ';
+  opacity: 0.8;
+}
+/* highlight missing fields */
+.field-missing textarea,
+.field-missing .emoji-row,
+.field-missing .chips {
+  outline: 2px solid var(--cocoa);
+  outline-offset: 4px;
+  border-radius: 4px;
+}
+
 </style>
 </head>
 <body>
@@ -579,8 +644,8 @@ input[type="range"]:focus::-webkit-slider-thumb {
     <div style="font-size:11px;letter-spacing:0.18em;color:#7a5c3e;text-transform:uppercase;margin-bottom:24px;font-family:'Cormorant Garamond',Georgia,serif;">INTO DESIGN · 入心設計</div>
     <h2 style="font-size:21px;font-weight:700;color:#5C3D2E;margin-bottom:36px;letter-spacing:0.04em;line-height:1.4;">請輸入通關密語</h2>
     <div style="position:relative;width:100%;">
-      <input id="pw-input" type="password" style="width:100%;border:none;border-bottom:1.5px solid #7a5c3e;background:transparent;font-family:inherit;font-size:16px;color:#5C3D2E;padding:8px 36px 10px 2px;outline:none;letter-spacing:0.08em;text-align:center;" onkeydown="if(event.key==='Enter')checkPW()">
-      <button id="eye-btn" type="button" onclick="togglePW()" style="position:absolute;right:2px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;padding:4px;display:flex;align-items:center;">
+      <input id="pw-input" type="password" style="width:100%;border:1.5px solid #7a5c3e;border-radius:4px;background:transparent;font-family:inherit;font-size:16px;color:#5C3D2E;padding:10px 36px 10px 12px;outline:none;letter-spacing:0.08em;text-align:center;" onkeydown="if(event.key==='Enter')checkPW()">
+      <button id="eye-btn" type="button" onclick="togglePW()" style="position:absolute;right:8px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;padding:4px;display:flex;align-items:center;">
         <svg id="eye-open" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 256 256" fill="none">
           <path d="M128 56C48 56 16 128 16 128s32 72 112 72 112-72 112-72S208 56 128 56z" stroke="#7a5c3e" stroke-width="14" stroke-linecap="round" stroke-linejoin="round"/>
           <circle cx="128" cy="128" r="32" stroke="#7a5c3e" stroke-width="14"/>
@@ -639,12 +704,21 @@ window.addEventListener('DOMContentLoaded', function() {
 });
 </script>
 
+
+<!-- Validation toast -->
+<div id="toast-wrap">
+  <div id="toast">
+    <div class="toast-title"><span>⚠</span><span id="toast-title-txt">還有欄位沒填喔</span></div>
+    <ul class="toast-list" id="toast-list"></ul>
+  </div>
+</div>
+
 <div class="page">
 
   <!-- Masthead -->
   <div class="masthead">
     <div class="masthead-series">INTO DESIGN · 入心設計</div>
-    <h1 id="main-title">恭喜 秀玲<br>完成平面設計 45 小時課程</h1>
+    <h1 id="main-title">恭喜 秀玲<br>完成平面設計課程</h1>
     <p class="masthead-sub">我想聽聽你的課後心得，你的回饋能幫助我下一堂課教得更好 :)</p>
   </div>
 
@@ -789,7 +863,7 @@ window.addEventListener('DOMContentLoaded', function() {
       </div>
 
       <div class="field">
-        <label class="field-label">遇到操作困難時，老師的協助方式對你有哪些幫助？<span class="req">＊</span></label>
+        <label class="field-label">遇到操作困難時，老師的協助方式對你有哪些幫助？</label>
         <div class="chips">
           <input type="checkbox" name="teacher-help" id="th1" value="適時鼓勵，讓我願意繼續嘗試">
           <label for="th1">適時鼓勵，讓我願意繼續嘗試</label>
@@ -816,7 +890,7 @@ window.addEventListener('DOMContentLoaded', function() {
       </div>
 
       <div class="field">
-        <label class="field-label" for="pace">對上課節奏或教法，有什麼希望調整的？<span class="req">＊</span></label>
+        <label class="field-label" for="pace">對上課節奏或教法，有什麼希望調整的？</label>
         <textarea id="pace" placeholder="如果覺得滿意，可以填寫「無」" maxlength="400"></textarea>
         <div class="field-foot"><span id="pace-n">0</span> / 400</div>
       </div>
@@ -933,7 +1007,14 @@ function updateTitle() {
   var short = getShortName(full);
   var topic = document.getElementById('topic') ? document.getElementById('topic').value : '';
   var el = document.getElementById('main-title');
-  if (el) el.innerHTML = '恭喜 ' + short + '<br>完成' + topic.replace('OBO一對一','') + '課程';
+  // 大標題會隨課程主題（topic 參數）連動，但會自動濾掉「OBO一對一」字樣
+  // 與時數標示（例如 45小時、20hr），避免標題過長換行；完整課程名稱仍顯示在下方「基本資訊」卡片
+  var cleanTopic = topic
+    .replace(/OBO一對一/g, '')
+    .replace(/\d+\s*(小時|hr|hrs|小时)/gi, '')
+    .trim();
+  var suffix = /課程$/.test(cleanTopic) ? '' : '課程';
+  if (el) el.innerHTML = '恭喜 ' + short + '<br>完成' + cleanTopic + suffix;
 }
 
 var dsEl = document.getElementById('date-start');
@@ -1055,6 +1136,7 @@ const SHEET_URL = 'https://script.google.com/macros/s/AKfycbyE-PBs9OKPWSe2ohYSnD
 // ── Submit ──
 document.getElementById('form').addEventListener('submit', function(e) {
   e.preventDefault();
+  var btn = document.querySelector('.btn-submit');
 
   // Collect data
   var feel  = document.querySelector('input[name="feel"]:checked');
@@ -1063,10 +1145,35 @@ document.getElementById('form').addEventListener('submit', function(e) {
   var gh    = document.querySelector('input[name="game-help"]:checked');
   var pace  = document.getElementById('pace').value.trim();
 
-  if (!feel || !aha || !tool || !gh || !pace) {
-    alert('請確認有 ＊ 的欄位都已填寫。');
+  // ── 驗證必填欄位 ──
+  var missing = [];
+  if (!aha)  missing.push({ label: '最讓你「突然懂了」的一刻', fieldEl: document.getElementById('aha').closest('.field') });
+
+  if (missing.length > 0) {
+    // 清除舊的標記
+    document.querySelectorAll('.field-missing').forEach(function(el){ el.classList.remove('field-missing'); });
+    // 標記未填欄位
+    missing.forEach(function(m){ if(m.fieldEl) m.fieldEl.classList.add('field-missing'); });
+    // 顯示 toast
+    var list = document.getElementById('toast-list');
+    list.innerHTML = missing.map(function(m){ return '<li>' + m.label + '</li>'; }).join('');
+    var toast = document.getElementById('toast');
+    toast.classList.add('show');
+    // 捲到第一個未填欄位
+    if (missing[0].fieldEl) missing[0].fieldEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    // 3 秒後自動關閉
+    clearTimeout(window._toastTimer);
+    window._toastTimer = setTimeout(function(){
+      toast.classList.remove('show');
+      document.querySelectorAll('.field-missing').forEach(function(el){ el.classList.remove('field-missing'); });
+    }, 3500);
     return;
   }
+
+  // 驗證通過 — 按鈕進入「已送出」狀態（持續到跳轉，避免使用者重複點擊）
+  btn.classList.add('clicked');
+  btn.disabled = true;
+  btn.textContent = '送出中…';
 
   var data = {
     at:          new Date().toLocaleString('zh-TW', {timeZone:'Asia/Taipei'}),
@@ -1088,40 +1195,17 @@ document.getElementById('form').addEventListener('submit', function(e) {
     freeNote:    document.getElementById('free').value
   };
 
-  // Build a hidden form and submit via hidden iframe (no CORS, no redirect)
-  var iframe = document.getElementById('submit-iframe');
-  if (!iframe) {
-    iframe = document.createElement('iframe');
-    iframe.id = 'submit-iframe';
-    iframe.name = 'submit-iframe';
-    iframe.style.display = 'none';
-    document.body.appendChild(iframe);
-  }
+  // 背景送資料到 Google Apps Script
+  var qs = Object.keys(data).map(function(k) {
+    return encodeURIComponent(k) + '=' + encodeURIComponent(data[k]);
+  }).join('&');
+  fetch(SHEET_URL + '?' + qs, { method: 'GET', mode: 'no-cors' })
+    .catch(function(err) { console.warn('送出失敗：', err); });
 
-  var hiddenForm = document.createElement('form');
-  hiddenForm.method = 'POST';
-  hiddenForm.action = SHEET_URL;
-  hiddenForm.target = 'submit-iframe';
-  hiddenForm.style.display = 'none';
-
-  Object.keys(data).forEach(function(k) {
-    var input = document.createElement('input');
-    input.type = 'hidden';
-    input.name = k;
-    input.value = data[k];
-    hiddenForm.appendChild(input);
-  });
-
-  document.body.appendChild(hiddenForm);
-  hiddenForm.submit();
-  document.body.removeChild(hiddenForm);
-
-  // Show thank you screen
-  document.getElementById('form').style.display = 'none';
-  var ty = document.getElementById('thank-you');
-  ty.style.display = 'block';
-  window.scrollTo({ top: 0, behavior: 'smooth' });
-};
+  // 跳轉到完成頁面，帶入姓名參數
+  var nameVal = encodeURIComponent(document.getElementById('name').value || '');
+  window.location.href = 'feedback-done-intodesign.html' + (nameVal ? '?name=' + nameVal : '');
+});
 </script>
 </body>
 </html>

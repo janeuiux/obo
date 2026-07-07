@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="color-scheme" content="light">
+<meta name="theme-color" content="#fff5e8">
+<title>回饋已送出 · INTO DESIGN 入心設計</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@300;400;700&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+:root {
+  color-scheme: light;
+  --cream:  #fff5e8;
+  --cocoa:  #5C3D2E;
+  --tan:    #7a5c3e;
+  --tan-lo: rgba(100,72,48,0.15);
+  --tan-line: rgba(100,72,48,0.28);
+  --serif: 'Noto Serif TC', 'Source Han Serif TC', serif;
+  --en:    'Cormorant Garamond', Georgia, serif;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html, body {
+  min-height: 100%;
+  background: #fff5e8 !important;
+  background-color: #fff5e8 !important;
+  font-family: var(--serif);
+  color: var(--cocoa);
+  -webkit-font-smoothing: antialiased;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100svh;
+  padding: 48px 24px;
+}
+
+/* ── 品牌標記 ── */
+.brand {
+  font-family: var(--en);
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  color: var(--tan);
+  text-transform: uppercase;
+  margin-bottom: 56px;
+  opacity: 0;
+  animation: fadeUp 0.6s ease 0.1s forwards;
+}
+
+/* ── 主視覺區 ── */
+.card {
+  width: 100%;
+  max-width: 440px;
+  text-align: center;
+  opacity: 0;
+  animation: fadeUp 0.7s ease 0.25s forwards;
+}
+
+/* 裝飾線 */
+.deco-line {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  justify-content: center;
+  margin-bottom: 40px;
+}
+.deco-line::before,
+.deco-line::after {
+  content: '';
+  display: block;
+  width: 48px;
+  height: 1px;
+  background: var(--tan-line);
+}
+.deco-mark {
+  font-family: var(--en);
+  font-size: 13px;
+  color: var(--tan);
+  letter-spacing: 0.12em;
+  font-style: italic;
+}
+
+/* 主標 */
+.headline {
+  font-size: clamp(36px, 8vw, 52px);
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  line-height: 1.15;
+  color: var(--cocoa);
+  margin-bottom: 28px;
+}
+.headline em {
+  font-style: normal;
+  font-family: var(--en);
+  font-weight: 400;
+  font-size: 0.62em;
+  display: block;
+  letter-spacing: 0.16em;
+  color: var(--tan);
+  margin-bottom: 6px;
+}
+
+/* 引言 */
+.quote {
+  font-weight: 300;
+  font-size: 15px;
+  line-height: 2;
+  color: var(--tan);
+  border-left: 2px solid var(--tan-line);
+  padding-left: 20px;
+  text-align: left;
+  margin: 0 auto 40px;
+  max-width: 320px;
+}
+
+/* 分隔 */
+.divider {
+  width: 32px;
+  height: 1px;
+  background: var(--tan-line);
+  margin: 0 auto 36px;
+}
+
+/* 名字顯示 */
+.student-name {
+  font-family: var(--en);
+  font-size: 13px;
+  letter-spacing: 0.14em;
+  color: var(--tan);
+  margin-bottom: 32px;
+  min-height: 20px;
+}
+
+/* 下方 meta */
+.meta {
+  font-family: var(--en);
+  font-size: 12px;
+  letter-spacing: 0.14em;
+  color: var(--tan);
+  text-align: center;
+  line-height: 2;
+  margin-top: 56px;
+  opacity: 0;
+  animation: fadeUp 0.6s ease 0.7s forwards;
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ── 手機適配 ── */
+@media (max-width: 480px) {
+  body { padding: 40px 20px; }
+  .quote { font-size: 14px; }
+}
+</style>
+</head>
+<body>
+
+<div class="brand">INTO DESIGN · 入心設計</div>
+
+<div class="card">
+  <div class="deco-line">
+    <span class="deco-mark">feedback received</span>
+  </div>
+
+  <h1 class="headline">
+    <em>THANK YOU</em>
+    謝謝你的回饋
+  </h1>
+
+  <p class="quote">
+    每一份回饋，<br>
+    都是我讓這堂課變得更好的機會，<br>
+    謝謝你真實的聲音：）
+  </p>
+
+  <div class="divider"></div>
+
+  <p class="student-name" id="name-display"></p>
+
+</div>
+
+<p class="meta">INTO DESIGN &nbsp;·&nbsp; @INTODESIGN25 &nbsp;·&nbsp; Wen Jane</p>
+
+<script>
+// 從 URL 參數讀取姓名，顯示個人化問候
+(function() {
+  var p = new URLSearchParams(window.location.search);
+  var name = p.get('name') || '';
+  if (name) {
+    var short = name.length >= 2 ? name.slice(-2) : name;
+    document.getElementById('name-display').textContent = short + '，辛苦了 ♡';
+  }
+})();
+</script>
+</body>
+</html>
