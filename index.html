@@ -1131,7 +1131,7 @@ document.getElementById('nps-slider').addEventListener('input', function() {
 
 // ── Google Sheets 串接網址（部署後貼在這裡）──
 // 步驟：Google 試算表 → 擴充功能 → Apps Script → 貼上下方 GAS 程式碼 → 部署為網路應用程式 → 複製網址
-const SHEET_URL = 'https://script.google.com/macros/s/AKfycbyE-PBs9OKPWSe2ohYSnDNo-ScTVcmhK03RZwxV2ym0Yun6Zld2SC5zJ-NHQW0fq0WJGw/exec';
+const SHEET_URL = 'https://script.google.com/macros/s/AKfycbxTG8xitvUU-5VuoS8g0jBoqe0O8FU_o4MjRJLeYLRkw5-TFY40q_q1uwQlkHUqEiAR/exec';
 
 // ── Submit ──
 document.getElementById('form').addEventListener('submit', function(e) {
@@ -1181,11 +1181,11 @@ document.getElementById('form').addEventListener('submit', function(e) {
     dateStart:   document.getElementById('date-start').value,
     dateEnd:     document.getElementById('date-end').value,
     topic:       document.getElementById('topic').value,
-    feel:        feel.value,
+    feel:        feel ? feel.value : '',
     difficulty:  document.getElementById('diff').value,
     aha:         aha,
-    tool:        tool.value,
-    gameHelp:    gh.value,
+    tool:        tool ? tool.value : '',
+    gameHelp:    gh ? gh.value : '',
     teacherHelp: Array.from(document.querySelectorAll('input[name="teacher-help"]:checked')).map(function(i){return i.value;}).join('、'),
     toolNote:    document.getElementById('tool-note').value,
     pace:        pace,
