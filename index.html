@@ -775,7 +775,7 @@ window.addEventListener('DOMContentLoaded', function() {
       <div class="field">
         <label class="field-label">這期課程整體感覺<span class="req">＊</span></label>
         <div class="emoji-row">
-          <input type="radio" name="feel" id="f1" value="意猶未盡" checked>
+          <input type="radio" name="feel" id="f1" value="意猶未盡">
           <label for="f1"><span class="em">🔥</span>意猶未盡</label>
           <input type="radio" name="feel" id="f2" value="學得很順">
           <label for="f2"><span class="em">😄</span>學得很順</label>
@@ -842,7 +842,7 @@ window.addEventListener('DOMContentLoaded', function() {
       <div class="field">
         <label class="field-label">遊戲化教學給你的感覺<span class="req">＊</span></label>
         <div class="chips">
-          <input type="radio" name="tool" id="t1" value="很有趣、很投入" checked>
+          <input type="radio" name="tool" id="t1" value="很有趣、很投入">
           <label for="t1">很有趣、很投入</label>
           <input type="radio" name="tool" id="t2" value="還不錯、有幫助">
           <label for="t2">還不錯、有幫助</label>
@@ -856,7 +856,7 @@ window.addEventListener('DOMContentLoaded', function() {
       <div class="field">
         <label class="field-label">對整體課程學習的幫助程度<span class="req">＊</span></label>
         <div class="chips">
-          <input type="radio" name="game-help" id="gh1" value="幫助很大" checked>
+          <input type="radio" name="game-help" id="gh1" value="幫助很大">
           <label for="gh1">幫助很大</label>
           <input type="radio" name="game-help" id="gh2" value="有一定幫助">
           <label for="gh2">有一定幫助</label>
@@ -1154,7 +1154,10 @@ document.getElementById('form').addEventListener('submit', function(e) {
 
   // ── 驗證必填欄位 ──
   var missing = [];
+  if (!feel) missing.push({ label: '這期課程整體感覺', fieldEl: document.querySelector('input[name="feel"]').closest('.field') });
   if (!aha)  missing.push({ label: '最讓你「突然懂了」的一刻', fieldEl: document.getElementById('aha').closest('.field') });
+  if (!tool) missing.push({ label: '遊戲化教學給你的感覺', fieldEl: document.querySelector('input[name="tool"]').closest('.field') });
+  if (!gh)   missing.push({ label: '對整體課程學習的幫助程度', fieldEl: document.querySelector('input[name="game-help"]').closest('.field') });
 
   if (missing.length > 0) {
     // 清除舊的標記
