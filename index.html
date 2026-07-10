@@ -124,7 +124,9 @@ body {
   position: relative;
   transition: border-color 0.25s;
 }
-.card:focus-within {
+.card:focus-within,
+.card:has(input:checked),
+.card:has(input.touched) {
   border-color: var(--tan);
 }
 /* Left accent bar on focus */
@@ -138,7 +140,7 @@ body {
   opacity: 0;
   transition: opacity 0.25s;
 }
-.card:focus-within::before { opacity: 1; }
+.card:focus-within::before { opacity: 0; }
 
 .card-header {
   display: flex;
@@ -263,6 +265,7 @@ input[type="date"] {
   appearance: none;
 }
 input[type="date"]:focus { box-shadow: 0 0 0 2px var(--tan); outline: none; }
+#pw-input:focus { box-shadow: none; }
 input[type="date"]::-webkit-calendar-picker-indicator {
   opacity: 0.45;
   cursor: pointer;
