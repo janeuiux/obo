@@ -203,7 +203,7 @@ input[type="text"]:focus,
 input[type="email"]:focus,
 textarea:focus,
 select:focus {
-  box-shadow: 0 0 0 2px var(--cocoa-md);
+  box-shadow: 0 0 0 2px var(--tan);
   outline: none;
 }
 input::placeholder, textarea::placeholder { color: var(--tan); opacity: 0.7; }
@@ -262,7 +262,7 @@ input[type="date"] {
   -webkit-appearance: none;
   appearance: none;
 }
-input[type="date"]:focus { box-shadow: 0 0 0 2px var(--cocoa-md); outline: none; }
+input[type="date"]:focus { box-shadow: 0 0 0 2px var(--tan); outline: none; }
 input[type="date"]::-webkit-calendar-picker-indicator {
   opacity: 0.45;
   cursor: pointer;
@@ -335,14 +335,31 @@ input[type="range"]::-webkit-slider-thumb {
   -webkit-appearance: none;
   width: 16px;
   height: 16px;
-  background: var(--cocoa);
+  background: var(--cream);
   border-radius: 50%;
-  border: 3px solid var(--cream);
+  border: 2px solid var(--tan);
+  box-shadow: none;
+  transition: box-shadow 0.15s, background 0.15s, border-color 0.15s;
+}
+input[type="range"].touched::-webkit-slider-thumb {
+  background: var(--cocoa);
+  border-color: var(--cream);
   box-shadow: 0 0 0 1.5px var(--cocoa);
-  transition: box-shadow 0.15s;
 }
 input[type="range"]:focus::-webkit-slider-thumb {
   box-shadow: 0 0 0 3px var(--tan-lo);
+}
+input[type="range"]::-moz-range-thumb {
+  width: 16px; height: 16px;
+  background: var(--cream);
+  border-radius: 50%;
+  border: 2px solid var(--tan);
+  box-shadow: none;
+}
+input[type="range"].touched::-moz-range-thumb {
+  background: var(--cocoa);
+  border-color: var(--cream);
+  box-shadow: 0 0 0 1.5px var(--cocoa);
 }
 .slider-labels {
   display: flex;
@@ -1116,7 +1133,7 @@ document.querySelectorAll('input[name="feel"]').forEach(function(el) {
   el.addEventListener('change', function() { touchedSections.feel = true; calcProgress(); });
 });
 document.getElementById('diff').addEventListener('input', function() {
-  touchedSections.feel = true; calcProgress();
+  this.classList.add('touched'); touchedSections.feel = true; calcProgress();
 });
 document.getElementById('aha').addEventListener('input', function() {
   if (this.value.trim()) { touchedSections.aha = true; calcProgress(); }
@@ -1133,7 +1150,7 @@ document.getElementById('pace').addEventListener('input', function() {
 // pace is required — also validate
 
 document.getElementById('nps-slider').addEventListener('input', function() {
-  touchedSections.nps = true; calcProgress();
+  this.classList.add('touched'); touchedSections.nps = true; calcProgress();
 });
 
 // ── Google Sheets 串接網址（部署後貼在這裡）──
